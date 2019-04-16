@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <math.h>
+#include <stdbool.h>
 #include <SDL2/SDL.h>
 
 #define WINDOW_WIDTH (640)
@@ -35,11 +36,21 @@ int main(void)
       return 1;
     }
 
-    SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
-    SDL_RenderClear(renderer);
-    SDL_RenderPresent(renderer);
+    SDL_Event event;
+    bool quit = false;
 
-    SDL_Delay(2000);
+    while (!quit) {
+
+        while (SDL_PollEvent(&event)) {
+            if (event.type == SDL_QUIT) {
+                quit = true;
+            }
+        }
+
+        SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
+        SDL_RenderClear(renderer);
+        SDL_RenderPresent(renderer);
+    }
 
     // clean up resources before exiting
     SDL_DestroyRenderer(renderer);
