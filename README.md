@@ -12,7 +12,7 @@ horizontally or vertically or diagonally is declared the winner.
 
 ## Development
 
-* [ ] Create the board
+* [x] Create the board
 * [ ] Create mouse click support
 * [ ] Create single player mode
 * [ ] Create double player mode
