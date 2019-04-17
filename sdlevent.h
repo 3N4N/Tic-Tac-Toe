@@ -4,7 +4,7 @@
 #include <SDL2/SDL.h>
 #include "global.h"
 
-bool handleEvent(SDL_Event* event, int arr[][3])
+bool handleEvent(SDL_Event* event, int arr[])
 {
     if (event->type == SDL_QUIT) {
         return true;
@@ -17,31 +17,32 @@ bool handleEvent(SDL_Event* event, int arr[][3])
 
         if (mouse_x < WINDOW_WIDTH / 3) {
             if (mouse_y < WINDOW_HEIGHT / 3) {
-                arr[0][0] = X;
+                arr[0] = X;
             } else if (mouse_y < 2 * WINDOW_HEIGHT / 3) {
-                arr[1][0] = X;
+                arr[3] = X;
             } else if (mouse_y < WINDOW_HEIGHT) {
-                arr[2][0] = X;
+                arr[6] = X;
             }
         } else if (mouse_x < 2 * WINDOW_WIDTH / 3) {
             if (mouse_y < WINDOW_HEIGHT / 3) {
-                arr[0][1] = X;
+                arr[1] = X;
             } else if (mouse_y < 2 * WINDOW_HEIGHT / 3) {
-                arr[1][1] = X;
+                arr[4] = X;
             } else if (mouse_y < WINDOW_HEIGHT) {
-                arr[2][1] = X;
+                arr[7] = X;
             }
         } else if (mouse_x < WINDOW_WIDTH) {
             if (mouse_y < WINDOW_HEIGHT / 3) {
-                arr[0][2] = X;
+                arr[2] = X;
             } else if (mouse_y < 2 * WINDOW_HEIGHT / 3) {
-                arr[1][2] = X;
+                arr[5] = X;
             } else if (mouse_y < WINDOW_HEIGHT) {
-                arr[2][2] = X;
+                arr[8] = X;
             }
         }
 
     }
+    return false;
 }
 
 #endif      // SDL_EVENT_H

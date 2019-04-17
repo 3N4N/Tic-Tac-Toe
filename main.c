@@ -7,7 +7,7 @@
 #include "sdlshape.h"
 #include "sdlevent.h"
 
-void drawBoard(SDL_Renderer* renderer, int arr[][3])
+void drawBoard(SDL_Renderer* renderer, int arr[])
 {
 
     /* Clear the screen with selected color */
@@ -30,26 +30,24 @@ void drawBoard(SDL_Renderer* renderer, int arr[][3])
                        WINDOW_WIDTH, WINDOW_HEIGHT * 2 / 3);
 
     /* Draw the X's and O's */
-    for (int i = 0; i < 3; ++i) {
-        for (int j = 0; j < 3; ++j) {
-            if (arr[i][j] == X) {
-                /* Green X's */
-                SDL_SetRenderDrawColor(renderer, 152, 195, 121, 255);
-                drawCross(renderer,
-                          j * WINDOW_WIDTH / 3 + WINDOW_WIDTH / 12,
-                          i * WINDOW_HEIGHT / 3 + WINDOW_HEIGHT / 12,
-                          j * WINDOW_WIDTH / 3 + WINDOW_WIDTH / 4,
-                          i * WINDOW_HEIGHT / 3 + WINDOW_HEIGHT / 4,
-                          10);
-            } else if (arr[i][j] == O) {
-                /* Blue O's */
-                SDL_SetRenderDrawColor(renderer, 97, 175, 239, 255);
-                for (int k = 0; k < 5; ++k) {
-                    drawCircle(renderer,
-                               j * WINDOW_WIDTH / 3 + WINDOW_WIDTH / 6,
-                               i * WINDOW_HEIGHT / 3 + WINDOW_HEIGHT / 6,
-                               50 + k);
-                }
+    for (int i = 0; i < 9; ++i) {
+        if (arr[i] == X) {
+            /* Green X's */
+            SDL_SetRenderDrawColor(renderer, 152, 195, 121, 255);
+            drawCross(renderer,
+                      (i % 3) * WINDOW_WIDTH  / 3 + WINDOW_WIDTH  / 12,
+                      (i / 3) * WINDOW_HEIGHT / 3 + WINDOW_HEIGHT / 12,
+                      (i % 3) * WINDOW_WIDTH  / 3 + WINDOW_WIDTH  / 4,
+                      (i / 3) * WINDOW_HEIGHT / 3 + WINDOW_HEIGHT / 4,
+                      10);
+        } else if (arr[i] == O) {
+            /* Blue O's */
+            SDL_SetRenderDrawColor(renderer, 97, 175, 239, 255);
+            for (int k = 0; k < 5; ++k) {
+                drawCircle(renderer,
+                           (i % 3) * WINDOW_WIDTH  / 3 + WINDOW_WIDTH  / 6,
+                           (i / 3) * WINDOW_HEIGHT / 3 + WINDOW_HEIGHT / 6,
+                           50 + k);
             }
         }
     }
@@ -59,9 +57,9 @@ void drawBoard(SDL_Renderer* renderer, int arr[][3])
 
 int main(int argc, int *argv[])
 {
-    int arr[3][3] = { { 2, 0, 1 },
-                      { 1, 0, 2 },
-                      { 0, 2, 0 } };
+    int arr[9] = { BLANK, BLANK, BLANK,
+                   BLANK, BLANK, BLANK,
+                   BLANK, BLANK, BLANK };
 
     if (SDL_Init(SDL_INIT_VIDEO) != 0) {
         printf("Error initializing SDL: %s\n", SDL_GetError());
