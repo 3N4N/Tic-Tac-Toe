@@ -7,6 +7,31 @@
 #include "sdlshape.h"
 #include "sdlevent.h"
 
+int checkWinner(int arr[])
+{
+    for (int i = 0, j = 0; i < 9, j < 3; i += 3, ++j) {
+
+        /* Check rows */
+        if (arr[i] != BLANK && arr[i] == arr[i+1] && arr[i] == arr[i+2]) {
+            return arr[i];
+        }
+        /* Check columns */
+        if (arr[j] != BLANK && arr[j] == arr[j+3] && arr[j] == arr[j+6]) {
+            return arr[j];
+        }
+    }
+
+    /* Check diagonals */
+    if (arr[0] != BLANK && arr[0] == arr[4] && arr[0] == arr[8]) {
+        return arr[0];
+    }
+    if (arr[2] != BLANK && arr[2] == arr[4] && arr[2] == arr[6]) {
+        return arr[2];
+    }
+
+    return BLANK;
+}
+
 void drawBoard(SDL_Renderer* renderer, int arr[])
 {
 
@@ -60,6 +85,7 @@ int main(int argc, int *argv[])
     int arr[9] = { BLANK, BLANK, BLANK,
                    BLANK, BLANK, BLANK,
                    BLANK, BLANK, BLANK };
+    int winner;
 
     if (SDL_Init(SDL_INIT_VIDEO) != 0) {
         printf("Error initializing SDL: %s\n", SDL_GetError());
@@ -95,6 +121,10 @@ int main(int argc, int *argv[])
 
         while (SDL_PollEvent(&event)) {
             quit = handleEvent(&event, arr);
+        }
+
+        if ((winner = checkWinner(arr)) != BLANK) {
+            quit = true;
         }
 
         drawBoard(renderer, arr);
