@@ -40,23 +40,14 @@ void drawBoard(SDL_Renderer* renderer, int arr[][3])
     for (int i = 0; i < 3; ++i) {
         for (int j = 0; j < 3; ++j) {
             if (arr[i][j] == X) {
-
-                for (int k = 0; k < 10; ++k) {
-                    /* Green X's */
-                    SDL_SetRenderDrawColor(renderer, 152, 195, 121, 255);
-                    SDL_RenderDrawLine(renderer,
-                                       j * WINDOW_WIDTH / 3 + WINDOW_WIDTH / 12 + k,
-                                       i * WINDOW_HEIGHT / 3 + WINDOW_HEIGHT / 12,
-                                       j * WINDOW_WIDTH / 3 + WINDOW_WIDTH / 4 + k,
-                                       i * WINDOW_HEIGHT / 3 + WINDOW_HEIGHT / 4);
-
-                    SDL_RenderDrawLine(renderer,
-                                       j * WINDOW_WIDTH / 3 + WINDOW_WIDTH / 4 - k,
-                                       i * WINDOW_HEIGHT / 3 + WINDOW_HEIGHT / 12,
-                                       j * WINDOW_WIDTH / 3 + WINDOW_WIDTH / 12 - k,
-                                       i * WINDOW_HEIGHT / 3 + WINDOW_HEIGHT / 4);
-
-                }
+                /* Green X's */
+                SDL_SetRenderDrawColor(renderer, 152, 195, 121, 255);
+                drawCross(renderer,
+                          j * WINDOW_WIDTH / 3 + WINDOW_WIDTH / 12,
+                          i * WINDOW_HEIGHT / 3 + WINDOW_HEIGHT / 12,
+                          j * WINDOW_WIDTH / 3 + WINDOW_WIDTH / 4,
+                          i * WINDOW_HEIGHT / 3 + WINDOW_HEIGHT / 4,
+                          10);
             } else if (arr[i][j] == O) {
                 /* Blue O's */
                 SDL_SetRenderDrawColor(renderer, 97, 175, 239, 255);

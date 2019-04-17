@@ -38,4 +38,13 @@ void drawCircle(SDL_Renderer *Renderer, int32_t _x, int32_t _y, int32_t radius)
 }
 
 
+void drawCross(SDL_Renderer* renderer, int x1, int y1, int x2, int y2, int thick)
+{
+    for (int k = 0; k < thick; ++k) {
+        SDL_RenderDrawLine(renderer, x1 + k, y1, x2 + k, y2);
+        SDL_RenderDrawLine(renderer, x2 - k, y1, x1 - k, y2);
+    }
+}
+
+
 #endif      // SDL_SHAPE_H
