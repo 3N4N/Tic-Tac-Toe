@@ -12,4 +12,18 @@ enum {
     O
 };
 
+enum {
+    STARTSCREEN,
+    GAMESCREEN,
+    SCORESCREEN
+
+};
+
+enum {
+    UNFINISHED,
+    PLAYER_NONE,
+    PLAYER_X,
+    PLAYER_O
+};
+
 #endif      // GLOBAL_H

@@ -13,24 +13,35 @@ int checkWinner(int arr[])
 
         /* Check rows */
         if (arr[i] != BLANK && arr[i] == arr[i+1] && arr[i] == arr[i+2]) {
-            return arr[i];
+            if (arr[i] == X) return PLAYER_X;
+            if (arr[i] == O) return PLAYER_O;
         }
         /* Check columns */
         if (arr[j] != BLANK && arr[j] == arr[j+3] && arr[j] == arr[j+6]) {
-            return arr[j];
+            if (arr[j] == X) return PLAYER_X;
+            if (arr[j] == O) return PLAYER_O;
         }
     }
 
     /* Check diagonals */
     if (arr[0] != BLANK && arr[0] == arr[4] && arr[0] == arr[8]) {
-        return arr[0];
+        if (arr[0] == X) return PLAYER_X;
+        if (arr[0] == O) return PLAYER_O;
     }
     if (arr[2] != BLANK && arr[2] == arr[4] && arr[2] == arr[6]) {
-        return arr[2];
+        if (arr[2] == X) return PLAYER_X;
+        if (arr[2] == O) return PLAYER_O;
     }
 
-    return BLANK;
+    for (int i = 0; i < 9; ++i) {
+        if (arr[i] == BLANK) {
+            return UNFINISHED;
+        }
+    }
+
+    return PLAYER_NONE;
 }
+
 
 void drawBoard(SDL_Renderer* renderer, int arr[])
 {
