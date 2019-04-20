@@ -37,6 +37,8 @@ int checkWinner(int arr[])
         if (arr[2] == O) return PLAYER_O;
     }
 
+    /* Check if the game is finished or not
+     */
     for (int i = 0; i < 9; ++i) {
         if (arr[i] == BLANK) {
             return UNFINISHED;
@@ -202,6 +204,7 @@ void renderGame(SDL_Renderer* renderer, int arr[], int winner)
 
 int main(int argc, char *argv[])
 {
+    /* Initialize the game board */
     int arr[9] = { BLANK, BLANK, BLANK,
                    BLANK, BLANK, BLANK,
                    BLANK, BLANK, BLANK };

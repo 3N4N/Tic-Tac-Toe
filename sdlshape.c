@@ -2,7 +2,6 @@
 
 #include "sdlshape.h"
 
-
 void drawCircle(SDL_Renderer *Renderer, int32_t _x, int32_t _y, int32_t radius)
 {
     int32_t x = radius - 1;
