@@ -1,15 +1,25 @@
-OBJS = main.c
+# Tic Tac Toe
 
 CC = gcc
+CFLAGS = -g -w -std=c99
+LIBS = -lSDL2 -lSDL2_image -lSDL2_ttf
 
-COMPILER_FLAGS = -w
+SRCS = main.c sdlshape.c sdlevent.c
+OBJS = $(SRCS:.c=.o)
+EXE = play
 
-LINKER_FLAGS = -lSDL2 -lSDL2_image -lSDL2_ttf
+all: $(EXE)
 
-OBJ_NAME = play
+.c.o:
+	$(CC) -c $(CFLAGS) $<
 
-all : $(OBJS)
-	$(CC) $(OBJS) $(COMPILER_FLAGS) $(LINKER_FLAGS) -o $(OBJ_NAME)
+$(EXE): $(OBJS)
+	$(CC) -o $(EXE) $(OBJS) $(LIBS)
+
+$(OBJS): global.h sdlevent.h sdlshape.h
 
 run : all
-	./$(OBJ_NAME)
+	./$(EXE)
+
+clean:
+	rm -f *.o *~ $(EXE)

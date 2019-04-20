@@ -200,7 +200,7 @@ void renderGame(SDL_Renderer* renderer, int arr[], int winner)
     }
 }
 
-int main(int argc, int *argv[])
+int main(int argc, char *argv[])
 {
     int arr[9] = { BLANK, BLANK, BLANK,
                    BLANK, BLANK, BLANK,
