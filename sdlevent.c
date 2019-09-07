@@ -60,26 +60,62 @@ bool handleGameScreenEvent(SDL_Event* event, int arr[])
 
         if (mouse_x < WINDOW_WIDTH / 3) {
 
-            if (mouse_y < WINDOW_HEIGHT / 3) arr[0] = current_player;
-            else if (mouse_y < 2 * WINDOW_HEIGHT / 3) arr[3] = current_player;
-            else if (mouse_y < WINDOW_HEIGHT) arr[6] = current_player;
+            if (mouse_y < WINDOW_HEIGHT / 3) {
+                if(arr[0] == BLANK) {
+                    arr[0] = current_player;
+                    current_player = switchPlayer(current_player);
+                }
+            } else if (mouse_y < 2 * WINDOW_HEIGHT / 3) {
+                if(arr[3] == BLANK) {
+                    arr[3] = current_player;
+                    current_player = switchPlayer(current_player);
+                }
+            } else if (mouse_y < WINDOW_HEIGHT) {
+                if(arr[6] == BLANK) {
+                    arr[6] = current_player;
+                    current_player = switchPlayer(current_player);
+                }
+            }
 
         } else if (mouse_x < 2 * WINDOW_WIDTH / 3) {
 
-            if (mouse_y < WINDOW_HEIGHT / 3) arr[1] = current_player;
-            else if (mouse_y < 2 * WINDOW_HEIGHT / 3) arr[4] = current_player;
-            else if (mouse_y < WINDOW_HEIGHT) arr[7] = current_player;
+            if (mouse_y < WINDOW_HEIGHT / 3) {
+                if(arr[1] == BLANK) {
+                    arr[1] = current_player;
+                    current_player = switchPlayer(current_player);
+                }
+            } else if (mouse_y < 2 * WINDOW_HEIGHT / 3) {
+                if(arr[4] == BLANK) {
+                    arr[4] = current_player;
+                    current_player = switchPlayer(current_player);
+                }
+            } else if (mouse_y < WINDOW_HEIGHT) {
+                if(arr[7] == BLANK) {
+                    arr[7] = current_player;
+                    current_player = switchPlayer(current_player);
+                }
+            }
 
         } else if (mouse_x < WINDOW_WIDTH) {
 
-            if (mouse_y < WINDOW_HEIGHT / 3) arr[2] = current_player;
-            else if (mouse_y < 2 * WINDOW_HEIGHT / 3) arr[5] = current_player;
-            else if (mouse_y < WINDOW_HEIGHT) arr[8] = current_player;
+            if (mouse_y < WINDOW_HEIGHT / 3) {
+                if(arr[2] == BLANK) {
+                    arr[2] = current_player;
+                    current_player = switchPlayer(current_player);
+                }
+            } else if (mouse_y < 2 * WINDOW_HEIGHT / 3) {
+                if(arr[5] == BLANK) {
+                    arr[5] = current_player;
+                    current_player = switchPlayer(current_player);
+                }
+            } else if (mouse_y < WINDOW_HEIGHT) {
+                if(arr[8] == BLANK) {
+                    arr[8] = current_player;
+                    current_player = switchPlayer(current_player);
+                }
+            }
 
         }
-
-        current_player = switchPlayer(current_player);
-
     }
     return false;
 }
