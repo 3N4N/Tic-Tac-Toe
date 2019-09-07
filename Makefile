@@ -16,7 +16,12 @@ all: $(EXE)
 $(EXE): $(OBJS)
 	$(CC) -o $(EXE) $(OBJS) $(LIBS)
 
-$(OBJS): global.h sdlevent.h sdlshape.h
+sdlevent.o : sdlevent.c sdlevent.h
+	$(CC) -c $(CFLAGS) $<
+sdlshape.o : sdlshape.c sdlshape.h
+	$(CC) -c $(CFLAGS) $<
+main.o : main.c
+	$(CC) -c $(CFLAGS) $<
 
 run : all
 	./$(EXE)
