@@ -1,30 +1,31 @@
 # Tic Tac Toe
 
-CC = gcc
-CFLAGS = -g -w -std=c99
-LIBS = -lSDL2 -lSDL2_image -lSDL2_ttf
+CC     = gcc
+CFLAGS = -g -w -std=c99 -Iinc/
+LIBS   = -lSDL2 -lSDL2_image -lSDL2_ttf
 
-SRCS = main.c sdlshape.c sdlevent.c
-OBJS = $(SRCS:.c=.o)
-EXE = play
+SRCS   = $(wildcard src/*.c)
+OBJS   = $(patsubst src/%.c,bin/%.o,$(SRCS))
+DEPS   = $(OBJS:.o:=.d)
+DIRS   = src inc bin
+EXE    = play
 
-all: $(EXE)
+all: $(DIRS) $(EXE)
 
-.c.o:
-	$(CC) -c $(CFLAGS) $<
+$(DIRS):
+	mkdir -p $@
 
 $(EXE): $(OBJS)
-	$(CC) -o $(EXE) $(OBJS) $(LIBS)
+	$(CC) -o $@ $^ $(LIBS)
 
-sdlevent.o : sdlevent.c sdlevent.h
-	$(CC) -c $(CFLAGS) $<
-sdlshape.o : sdlshape.c sdlshape.h
-	$(CC) -c $(CFLAGS) $<
-main.o : main.c
-	$(CC) -c $(CFLAGS) $<
+bin/%.o : src/%.c
+	$(CC) -o $@ $(CFLAGS) -c $<
+
+bin/%.o : src/%.c inc/%.h
+	$(CC) -o $@ $(CFLAGS) -c $<
 
 run : all
 	./$(EXE)
 
 clean:
-	rm -f *.o *~ $(EXE)
+	rm -rf bin *~ $(EXE)

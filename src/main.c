@@ -18,7 +18,7 @@ int checkWinner(int arr[])
         /* Check rows */
         if (arr[i] != BLANK && arr[i] == arr[i+1] && arr[i] == arr[i+2]) {
             if (arr[i] == X) return PLAYER_X;
-            if (arr[i] == O) return PLAYER_O;
+            else return PLAYER_O;
         }
         /* Check columns */
         if (arr[j] != BLANK && arr[j] == arr[j+3] && arr[j] == arr[j+6]) {
