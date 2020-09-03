@@ -2,7 +2,7 @@
 
 #include "sdlshape.h"
 
-void drawCircle(SDL_Renderer *Renderer, int32_t _x, int32_t _y, int32_t radius)
+void drawCircle(SDL_Renderer *renderer, int32_t _x, int32_t _y, int32_t radius)
 {
     int32_t x = radius - 1;
     int32_t y = 0;
@@ -12,14 +12,14 @@ void drawCircle(SDL_Renderer *Renderer, int32_t _x, int32_t _y, int32_t radius)
 
     while (x >= y) {
         //  Each of the following renders an octant of the circle
-        SDL_RenderDrawPoint(Renderer, _x + x, _y - y);
-        SDL_RenderDrawPoint(Renderer, _x + x, _y + y);
-        SDL_RenderDrawPoint(Renderer, _x - x, _y - y);
-        SDL_RenderDrawPoint(Renderer, _x - x, _y + y);
-        SDL_RenderDrawPoint(Renderer, _x + y, _y - x);
-        SDL_RenderDrawPoint(Renderer, _x + y, _y + x);
-        SDL_RenderDrawPoint(Renderer, _x - y, _y - x);
-        SDL_RenderDrawPoint(Renderer, _x - y, _y + x);
+        SDL_RenderDrawPoint(renderer, _x + x, _y - y);
+        SDL_RenderDrawPoint(renderer, _x + x, _y + y);
+        SDL_RenderDrawPoint(renderer, _x - x, _y - y);
+        SDL_RenderDrawPoint(renderer, _x - x, _y + y);
+        SDL_RenderDrawPoint(renderer, _x + y, _y - x);
+        SDL_RenderDrawPoint(renderer, _x + y, _y + x);
+        SDL_RenderDrawPoint(renderer, _x - y, _y - x);
+        SDL_RenderDrawPoint(renderer, _x - y, _y + x);
 
         if (err <= 0) {
             y++;
