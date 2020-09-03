@@ -8,7 +8,7 @@ SRCS   = $(wildcard src/*.c)
 OBJS   = $(patsubst src/%.c,bin/%.o,$(SRCS))
 DEPS   = $(OBJS:.o:=.d)
 DIRS   = src inc bin
-EXE    = play
+EXE    = Tic-tac-toe
 
 all: $(DIRS) $(EXE)
 

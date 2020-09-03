@@ -3,6 +3,7 @@
 #include <stdbool.h>
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_ttf.h>
+#include <SDL2/SDL_image.h>
 
 #include "global.h"
 #include "sdlshape.h"
@@ -44,6 +45,9 @@ int main(int argc, char *argv[])
         SDL_Quit();
         return EXIT_FAILURE;
     }
+
+    SDL_Surface* icon = IMG_Load("icon.png");
+    SDL_SetWindowIcon(window, icon);
 
     Uint32 rend_flag = SDL_RENDERER_ACCELERATED;
     SDL_Renderer *renderer = SDL_CreateRenderer(window, -1, rend_flag);
