@@ -1,3 +1,5 @@
+#include <time.h>
+#include <stdlib.h>
 #include <stdbool.h>
 #include <math.h>
 #include <SDL2/SDL.h>
@@ -69,7 +71,6 @@ bool handleEvent(SDL_Event* event, int arr[])
 
 bool handleStartScreenEvent(SDL_Event* event, int arr[])
 {
-    extern int screen_state;
     if (event->type == SDL_QUIT) {
         return true;
     }
@@ -96,8 +97,6 @@ bool handleStartScreenEvent(SDL_Event* event, int arr[])
 
 bool handleGameScreenEvent(SDL_Event* event, int arr[])
 {
-    extern int current_player;
-
     if (event->type == SDL_QUIT) {
         return true;
     }
@@ -106,64 +105,84 @@ bool handleGameScreenEvent(SDL_Event* event, int arr[])
     int buttons = SDL_GetMouseState(&mouse_x, &mouse_y);
 
     if (buttons & SDL_BUTTON(SDL_BUTTON_LEFT)) {
-
         if (mouse_x < WINDOW_WIDTH / 3) {
-
             if (mouse_y < WINDOW_HEIGHT / 3) {
                 if(arr[0] == BLANK) {
                     arr[0] = current_player;
-                    current_player = switchPlayer(current_player);
+                    if (play_mode == DOUBLEPLAYER)
+                        current_player = switchPlayer(current_player);
+                    else
+                        arr[computerTurn(arr)] = O;
                 }
             } else if (mouse_y < 2 * WINDOW_HEIGHT / 3) {
                 if(arr[3] == BLANK) {
                     arr[3] = current_player;
-                    current_player = switchPlayer(current_player);
+                    if (play_mode == DOUBLEPLAYER)
+                        current_player = switchPlayer(current_player);
+                    else
+                        arr[computerTurn(arr)] = O;
                 }
             } else if (mouse_y < WINDOW_HEIGHT) {
                 if(arr[6] == BLANK) {
                     arr[6] = current_player;
-                    current_player = switchPlayer(current_player);
+                    if (play_mode == DOUBLEPLAYER)
+                        current_player = switchPlayer(current_player);
+                    else
+                        arr[computerTurn(arr)] = O;
                 }
             }
-
         } else if (mouse_x < 2 * WINDOW_WIDTH / 3) {
-
             if (mouse_y < WINDOW_HEIGHT / 3) {
                 if(arr[1] == BLANK) {
                     arr[1] = current_player;
-                    current_player = switchPlayer(current_player);
+                    if (play_mode == DOUBLEPLAYER)
+                        current_player = switchPlayer(current_player);
+                    else
+                        arr[computerTurn(arr)] = O;
                 }
             } else if (mouse_y < 2 * WINDOW_HEIGHT / 3) {
                 if(arr[4] == BLANK) {
                     arr[4] = current_player;
-                    current_player = switchPlayer(current_player);
+                    if (play_mode == DOUBLEPLAYER)
+                        current_player = switchPlayer(current_player);
+                    else
+                        arr[computerTurn(arr)] = O;
                 }
             } else if (mouse_y < WINDOW_HEIGHT) {
                 if(arr[7] == BLANK) {
                     arr[7] = current_player;
-                    current_player = switchPlayer(current_player);
+                    if (play_mode == DOUBLEPLAYER)
+                        current_player = switchPlayer(current_player);
+                    else
+                        arr[computerTurn(arr)] = O;
                 }
             }
-
         } else if (mouse_x < WINDOW_WIDTH) {
-
             if (mouse_y < WINDOW_HEIGHT / 3) {
                 if(arr[2] == BLANK) {
                     arr[2] = current_player;
-                    current_player = switchPlayer(current_player);
+                    if (play_mode == DOUBLEPLAYER)
+                        current_player = switchPlayer(current_player);
+                    else
+                        arr[computerTurn(arr)] = O;
                 }
             } else if (mouse_y < 2 * WINDOW_HEIGHT / 3) {
                 if(arr[5] == BLANK) {
                     arr[5] = current_player;
-                    current_player = switchPlayer(current_player);
+                    if (play_mode == DOUBLEPLAYER)
+                        current_player = switchPlayer(current_player);
+                    else
+                        arr[computerTurn(arr)] = O;
                 }
             } else if (mouse_y < WINDOW_HEIGHT) {
                 if(arr[8] == BLANK) {
                     arr[8] = current_player;
-                    current_player = switchPlayer(current_player);
+                    if (play_mode == DOUBLEPLAYER)
+                        current_player = switchPlayer(current_player);
+                    else
+                        arr[computerTurn(arr)] = O;
                 }
             }
-
         }
     }
     return false;
@@ -176,4 +195,104 @@ bool handleScoreScreenEvent(SDL_Event* event, int arr[])
     }
 
     return false;
+}
+
+int computerTurn(int arr[])
+{
+    int r;
+    if (availableMoves(arr) == 9) {
+        r = computerTurnRandom(arr);
+    }
+    else {
+        r = computerTurnMiniMax(arr);
+    }
+
+    return r;
+}
+
+int minimax(int arr[], int depth, bool isMaximizing)
+{
+    int score = 0;
+    int bestScore = 0;
+    int winner = checkWinner(arr);
+    int emptyTiles = availableMoves(arr);
+
+    if (winner != UNFINISHED) {
+        if (winner == PLAYER_X) {
+            return -1 * (emptyTiles + 1);
+        } else if (winner == PLAYER_O) {
+            return 1 * (emptyTiles + 1);
+        }
+
+        return 0;
+    }
+
+    if (isMaximizing) {
+        bestScore = -1 * INFINITY;
+        for (int i = 0; i < 9; ++i) {
+            if (arr[i] == BLANK) {
+                arr[i] = O;
+                score = minimax(arr, depth - 1, false);
+                arr[i] = BLANK;
+                if (score > bestScore) bestScore = score;
+            }
+        }
+        return bestScore;
+    } else {
+        bestScore = INFINITY;
+        for (int i = 0; i < 9; ++i) {
+            if (arr[i] == BLANK) {
+                arr[i] = X;
+                score = minimax(arr, depth - 1, true);
+                arr[i] = BLANK;
+                if (score < bestScore) bestScore = score;
+            }
+        }
+        return bestScore;
+    }
+
+    return bestScore;
+}
+
+int computerTurnMiniMax(int arr[])
+{
+    int score = 0;
+    int bestScore = -1 * INFINITY;
+    int bestMove = -1;
+
+    for (int i = 0; i < 9; ++i) {
+        if (arr[i] == BLANK) {
+            arr[i] = O;
+            score = minimax(arr, 5, false);
+            arr[i] = BLANK;
+            if (score > bestScore) {
+                bestScore = score;
+                bestMove = i;
+            }
+        }
+    }
+
+    return bestMove;
+}
+
+int computerTurnRandom(int arr[])
+{
+    srand(time(NULL));
+    int r;
+    do {
+        r = rand() % 9;
+    } while (arr[r] != BLANK);
+
+    return r;
+}
+
+int availableMoves(int arr[])
+{
+    int c = 0;
+
+    for (int i = 0; i < 9; ++i) {
+        if (arr[i] == BLANK) c++;
+    }
+
+    return c;
 }
