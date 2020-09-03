@@ -75,11 +75,19 @@ bool handleStartScreenEvent(SDL_Event* event, int arr[])
     }
 
     if (event->type == SDL_KEYDOWN) {
-        if (event->key.keysym.sym == SDLK_RETURN) {
+        if (event->key.keysym.sym == SDLK_1 || event->key.keysym.sym == SDLK_2) {
             for (int i = 0; i < 9; ++i) {
                 arr[i] = BLANK;
             }
+
             screen_state = GAMESCREEN;
+
+            if (event->key.keysym.sym == SDLK_1) {
+              play_mode = SINGLEPLAYER;
+            }
+            else if (event->key.keysym.sym == SDLK_2) {
+              play_mode = DOUBLEPLAYER;
+            }
         }
     }
 
