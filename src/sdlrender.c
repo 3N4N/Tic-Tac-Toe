@@ -12,7 +12,8 @@ void renderStartScreen(SDL_Renderer* renderer, int arr[])
     SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
     SDL_RenderClear(renderer);
 
-    char* playButton = "PLAY";
+    char* singleButton = "Press 1 for singleplayer";
+    char* doubleButton = "Press 2 for doubleplayer";
     char* gameName = "Tic Tac Toe";
     TTF_Font* monaco = TTF_OpenFont("Monaco.ttf", 24);
     if (monaco == NULL) {
@@ -20,14 +21,24 @@ void renderStartScreen(SDL_Renderer* renderer, int arr[])
         return;
     }
     SDL_Color yellow = {239, 239, 40};
-    SDL_Surface* playButtonSurface = TTF_RenderText_Blended(monaco, playButton, yellow);
-    SDL_Texture* playButtonTexture = SDL_CreateTextureFromSurface(renderer, playButtonSurface);
-    if (!playButtonTexture) {
+    SDL_Surface* singleButtonSurface = TTF_RenderText_Blended(monaco, singleButton, yellow);
+    SDL_Texture* singleButtonTexture = SDL_CreateTextureFromSurface(renderer, singleButtonSurface);
+    if (!singleButtonTexture) {
         printf("error creating texture: %s\n", SDL_GetError());
-        SDL_FreeSurface(playButtonSurface);
+        SDL_FreeSurface(singleButtonSurface);
         TTF_CloseFont(monaco);
         return;
     }
+
+    SDL_Surface* doubleButtonSurface = TTF_RenderText_Blended(monaco, doubleButton, yellow);
+    SDL_Texture* doubleButtonTexture = SDL_CreateTextureFromSurface(renderer, doubleButtonSurface);
+    if (!doubleButtonTexture) {
+        printf("error creating texture: %s\n", SDL_GetError());
+        SDL_FreeSurface(doubleButtonSurface);
+        TTF_CloseFont(monaco);
+        return;
+    }
+
     SDL_Surface* gameNameSurface = TTF_RenderText_Blended(monaco, gameName, yellow);
     SDL_Texture* gameNameTexture = SDL_CreateTextureFromSurface(renderer, gameNameSurface);
     if (!gameNameTexture) {
@@ -37,11 +48,17 @@ void renderStartScreen(SDL_Renderer* renderer, int arr[])
         return;
     }
 
-    SDL_Rect play_button_rect;
-    play_button_rect.x = (WINDOW_WIDTH - playButtonSurface->w) / 2;
-    play_button_rect.y = (WINDOW_HEIGHT - playButtonSurface->h) / 2 + 100;
-    play_button_rect.w = playButtonSurface->w;
-    play_button_rect.h = playButtonSurface->h;
+    SDL_Rect single_button_rect;
+    single_button_rect.x = (WINDOW_WIDTH - singleButtonSurface->w) / 2;
+    single_button_rect.y = (WINDOW_HEIGHT - singleButtonSurface->h) / 2 + 50;
+    single_button_rect.w = singleButtonSurface->w;
+    single_button_rect.h = singleButtonSurface->h;
+
+    SDL_Rect double_button_rect;
+    double_button_rect.x = (WINDOW_WIDTH - doubleButtonSurface->w) / 2;
+    double_button_rect.y = (WINDOW_HEIGHT - doubleButtonSurface->h) / 2 + 100;
+    double_button_rect.w = doubleButtonSurface->w;
+    double_button_rect.h = doubleButtonSurface->h;
 
     SDL_Rect game_name_rect;
     game_name_rect.x = (WINDOW_WIDTH - gameNameSurface->w) / 2;
@@ -49,12 +66,15 @@ void renderStartScreen(SDL_Renderer* renderer, int arr[])
     game_name_rect.w = gameNameSurface->w;
     game_name_rect.h = gameNameSurface->h;
 
-    SDL_RenderCopy(renderer, playButtonTexture, NULL, &play_button_rect);
+    SDL_RenderCopy(renderer, singleButtonTexture, NULL, &single_button_rect);
+    SDL_RenderCopy(renderer, doubleButtonTexture, NULL, &double_button_rect);
     SDL_RenderCopy(renderer, gameNameTexture, NULL, &game_name_rect);
 
-    SDL_FreeSurface(playButtonSurface);
+    SDL_FreeSurface(singleButtonSurface);
+    SDL_FreeSurface(doubleButtonSurface);
     SDL_FreeSurface(gameNameSurface);
-    SDL_DestroyTexture(playButtonTexture);
+    SDL_DestroyTexture(singleButtonTexture);
+    SDL_DestroyTexture(doubleButtonTexture);
     SDL_DestroyTexture(gameNameTexture);
     TTF_CloseFont(monaco);
 }
@@ -114,9 +134,11 @@ void renderScoreScreen(SDL_Renderer* renderer, int arr[], int winner)
     if (winner == PLAYER_NONE) {
         winner_msg = "It's a tie";
     } else if (winner == PLAYER_X) {
-        winner_msg = "X won";
+        if (play_mode == SINGLEPLAYER) winner_msg = "You won";
+        else winner_msg = "X won";
     } else if (winner == PLAYER_O) {
-        winner_msg = "O won";
+        if (play_mode == SINGLEPLAYER) winner_msg = "You lost";
+        else winner_msg = "O won";
     }
 
     /* Clear the screen with selected color */

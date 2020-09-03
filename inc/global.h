@@ -11,6 +11,11 @@ enum {
 };
 
 enum {
+    SINGLEPLAYER,
+    DOUBLEPLAYER
+};
+
+enum {
     STARTSCREEN,
     GAMESCREEN,
     SCORESCREEN

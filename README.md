@@ -36,6 +36,6 @@ diagonally is declared the winner.
 
 * [x] Create the board
 * [x] Create mouse click support
-* [ ] Create single player mode
+* [x] Create single player mode
 * [x] Create double player mode
 * [ ] Add sound effects
