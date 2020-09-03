@@ -2,10 +2,11 @@
 #include <SDL2/SDL.h>
 
 #include "global.h"
+#include "sdlshape.h"
 #include "sdlrender.h"
 
-extern screen_state;
-extern play_mode;
+extern int screen_state;
+extern int play_mode;
 
 void renderStartScreen(SDL_Renderer* renderer, int arr[])
 {

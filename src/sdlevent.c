@@ -20,13 +20,15 @@ int switchPlayer(int current_player)
 
 int checkWinner(int arr[])
 {
-    for (int i = 0, j = 0; i < 9, j < 3; i += 3, ++j) {
-
+    for (int i = 0; i < 9; i += 3) {
         /* Check rows */
         if (arr[i] != BLANK && arr[i] == arr[i+1] && arr[i] == arr[i+2]) {
             if (arr[i] == X) return PLAYER_X;
             else return PLAYER_O;
         }
+    }
+
+    for (int j = 0; j < 3; j += 1) {
         /* Check columns */
         if (arr[j] != BLANK && arr[j] == arr[j+3] && arr[j] == arr[j+6]) {
             if (arr[j] == X) return PLAYER_X;
@@ -210,7 +212,7 @@ int computerTurn(int arr[])
     return r;
 }
 
-int minimax(int arr[], bool isMaximizing)
+int minimax(int arr[], int alpha, int beta, bool isMaximizing)
 {
     int score = 0;
     int bestScore = 0;
@@ -232,23 +234,25 @@ int minimax(int arr[], bool isMaximizing)
         for (int i = 0; i < 9; ++i) {
             if (arr[i] == BLANK) {
                 arr[i] = O;
-                score = minimax(arr, false);
+                score = minimax(arr, alpha, beta, false);
                 arr[i] = BLANK;
                 if (score > bestScore) bestScore = score;
+                if (score > alpha) alpha = score;
+                if (beta <= alpha) break;
             }
         }
-        return bestScore;
     } else {
         bestScore = INFINITY;
         for (int i = 0; i < 9; ++i) {
             if (arr[i] == BLANK) {
                 arr[i] = X;
-                score = minimax(arr, true);
+                score = minimax(arr, alpha, beta, true);
                 arr[i] = BLANK;
                 if (score < bestScore) bestScore = score;
+                if (score < beta) beta = score;
+                if (beta <= alpha) break;
             }
         }
-        return bestScore;
     }
 
     return bestScore;
@@ -263,7 +267,7 @@ int computerTurnMiniMax(int arr[])
     for (int i = 0; i < 9; ++i) {
         if (arr[i] == BLANK) {
             arr[i] = O;
-            score = minimax(arr, false);
+            score = minimax(arr, -1 * INFINITY, 1 * INFINITY, false);
             arr[i] = BLANK;
             if (score > bestScore) {
                 bestScore = score;
