@@ -5,6 +5,7 @@
 #include "sdlrender.h"
 
 extern screen_state;
+extern play_mode;
 
 void renderStartScreen(SDL_Renderer* renderer, int arr[])
 {
@@ -130,7 +131,6 @@ void renderGameScreen(SDL_Renderer* renderer, int arr[])
 void renderScoreScreen(SDL_Renderer* renderer, int arr[], int winner)
 {
     char* winner_msg;
-    extern play_mode;
     if (winner == PLAYER_NONE) {
         winner_msg = "It's a tie";
     } else if (winner == PLAYER_X) {

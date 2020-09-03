@@ -210,7 +210,7 @@ int computerTurn(int arr[])
     return r;
 }
 
-int minimax(int arr[], int depth, bool isMaximizing)
+int minimax(int arr[], bool isMaximizing)
 {
     int score = 0;
     int bestScore = 0;
@@ -232,7 +232,7 @@ int minimax(int arr[], int depth, bool isMaximizing)
         for (int i = 0; i < 9; ++i) {
             if (arr[i] == BLANK) {
                 arr[i] = O;
-                score = minimax(arr, depth - 1, false);
+                score = minimax(arr, false);
                 arr[i] = BLANK;
                 if (score > bestScore) bestScore = score;
             }
@@ -243,7 +243,7 @@ int minimax(int arr[], int depth, bool isMaximizing)
         for (int i = 0; i < 9; ++i) {
             if (arr[i] == BLANK) {
                 arr[i] = X;
-                score = minimax(arr, depth - 1, true);
+                score = minimax(arr, true);
                 arr[i] = BLANK;
                 if (score < bestScore) bestScore = score;
             }
@@ -263,7 +263,7 @@ int computerTurnMiniMax(int arr[])
     for (int i = 0; i < 9; ++i) {
         if (arr[i] == BLANK) {
             arr[i] = O;
-            score = minimax(arr, 5, false);
+            score = minimax(arr, false);
             arr[i] = BLANK;
             if (score > bestScore) {
                 bestScore = score;
