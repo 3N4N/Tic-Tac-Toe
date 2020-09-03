@@ -1,13 +1,60 @@
 #include <stdbool.h>
+#include <math.h>
 #include <SDL2/SDL.h>
 
 #include "global.h"
 #include "sdlevent.h"
 
+extern int screen_state;
+extern int play_mode;
+extern int current_player;
+extern int screen_state;
+
+int switchPlayer(int current_player)
+{
+    if (current_player == X) return O;
+    return X;
+}
+
+int checkWinner(int arr[])
+{
+    for (int i = 0, j = 0; i < 9, j < 3; i += 3, ++j) {
+
+        /* Check rows */
+        if (arr[i] != BLANK && arr[i] == arr[i+1] && arr[i] == arr[i+2]) {
+            if (arr[i] == X) return PLAYER_X;
+            else return PLAYER_O;
+        }
+        /* Check columns */
+        if (arr[j] != BLANK && arr[j] == arr[j+3] && arr[j] == arr[j+6]) {
+            if (arr[j] == X) return PLAYER_X;
+            if (arr[j] == O) return PLAYER_O;
+        }
+    }
+
+    /* Check diagonals */
+    if (arr[0] != BLANK && arr[0] == arr[4] && arr[0] == arr[8]) {
+        if (arr[0] == X) return PLAYER_X;
+        if (arr[0] == O) return PLAYER_O;
+    }
+    if (arr[2] != BLANK && arr[2] == arr[4] && arr[2] == arr[6]) {
+        if (arr[2] == X) return PLAYER_X;
+        if (arr[2] == O) return PLAYER_O;
+    }
+
+    /* Check if the game is finished or not
+     */
+    for (int i = 0; i < 9; ++i) {
+        if (arr[i] == BLANK) {
+            return UNFINISHED;
+        }
+    }
+
+    return PLAYER_NONE;
+}
+
 bool handleEvent(SDL_Event* event, int arr[])
 {
-    extern int screen_state;
-
     bool return_value = false;
     if (screen_state == STARTSCREEN) {
         return_value = handleStartScreenEvent(event, arr);
@@ -37,12 +84,6 @@ bool handleStartScreenEvent(SDL_Event* event, int arr[])
     }
 
     return false;
-}
-
-int switchPlayer(int current_player)
-{
-    if (current_player == X) return O;
-    return X;
 }
 
 bool handleGameScreenEvent(SDL_Event* event, int arr[])
