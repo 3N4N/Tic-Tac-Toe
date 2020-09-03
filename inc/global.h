@@ -14,7 +14,6 @@ enum {
     STARTSCREEN,
     GAMESCREEN,
     SCORESCREEN
-
 };
 
 enum {
