@@ -8,6 +8,8 @@
 extern int screen_state;
 extern int play_mode;
 
+const char* f_font = "assets/Monaco.ttf";
+
 void renderStartScreen(SDL_Renderer* renderer, int arr[])
 {
     /* Clear the screen with selected color */
@@ -17,7 +19,7 @@ void renderStartScreen(SDL_Renderer* renderer, int arr[])
     char* singleButton = "Press 1 for singleplayer";
     char* doubleButton = "Press 2 for doubleplayer";
     char* gameName = "Tic Tac Toe";
-    TTF_Font* monaco = TTF_OpenFont("Monaco.ttf", 24);
+    TTF_Font* monaco = TTF_OpenFont(f_font, 24);
     if (monaco == NULL) {
         printf("Error opening font: %s\n", SDL_GetError());
         return;
@@ -146,7 +148,7 @@ void renderScoreScreen(SDL_Renderer* renderer, int arr[], int winner)
     SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
     SDL_RenderClear(renderer);
 
-    TTF_Font* monaco = TTF_OpenFont("Monaco.ttf", 24);
+    TTF_Font* monaco = TTF_OpenFont(f_font, 24);
     if (monaco == NULL) {
         printf("Error opening font: %s\n", SDL_GetError());
         return;
