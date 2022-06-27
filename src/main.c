@@ -46,7 +46,7 @@ int main(int argc, char *argv[])
         return EXIT_FAILURE;
     }
 
-    SDL_Surface* icon = IMG_Load("icon.png");
+    SDL_Surface* icon = IMG_Load("assets/icon.png");
     SDL_SetWindowIcon(window, icon);
 
     Uint32 rend_flag = SDL_RENDERER_ACCELERATED;
