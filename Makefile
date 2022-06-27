@@ -2,7 +2,12 @@
 
 CC     = gcc
 CFLAGS = -g -w -std=c99 -Iinc/
-LIBS   = -lSDL2 -lSDL2_image -lSDL2_ttf
+
+ifeq ($(OS),Windows_NT)
+	LIBS   = -lmingw32 -lSDL2main -lSDL2 -lSDL2_image -lSDL2_ttf
+else
+	LIBS   = -lSDL2main -lSDL2 -lSDL2_image -lSDL2_ttf
+endif
 
 SRCS   = $(wildcard src/*.c)
 OBJS   = $(patsubst src/%.c,bin/%.o,$(SRCS))
