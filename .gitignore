@@ -1,4 +1,7 @@
 tags
+build
+bin
 Tic-tac-toe
-*.o
+Tic-tac-toe.exe
+*.exe
 *.vim
